@@ -1,5 +1,4 @@
 import matplotlib.pyplot as pyplot
-from enum import Enum
 from Cell import Cell
 
 pyplot.rcParams['toolbar'] = 'None'
@@ -10,10 +9,6 @@ pyplot.axis('off')
 maze = []
 
 
-class Wall(Enum):
-    LOWER_WALL = 1
-
-
 def line(x1, y1, x2, y2):
     pyplot.plot([x1, x2], [y1, y2], color='black')
 
@@ -21,8 +16,29 @@ def line(x1, y1, x2, y2):
 def clear_lower_wall(x, y):
     pyplot.plot([x, x+1], [y, y], color='white')
     for cell in maze:
-        if cell.origin[0] == x - 1 and cell.origin[1] == y:
+        if cell.origin[0] == x and cell.origin[1] == y - 1:
             cell.existsUpperWall = False
+
+
+def clear_upper_wall(x, y):
+    pyplot.plot([x, x+1], [y+1, y+1], color='white')
+    for cell in maze:
+        if cell.origin[0] == x and cell.origin[1] == y + 1:
+            cell.existsLowerWall = False
+
+
+def clear_left_wall(x, y):
+    pyplot.plot([x, x], [y, y+1], color='white')
+    for cell in maze:
+        if cell.origin[0] == x - 1 and cell.origin[1] == y:
+            cell.existsRightWall = False
+
+
+def clear_right_wall(x, y):
+    pyplot.plot([x + 1, x + 1], [y, y + 1], color='white')
+    for cell in maze:
+        if cell.origin[0] == x + 1 and cell.origin[1] == y:
+            cell.existsLeftWall = False
 
 
 def draw_cells():
@@ -45,13 +61,6 @@ def draw_cells():
 
 
 draw_cells()
-for cell in maze:
-    clear_lower_wall(cell.origin[0], cell.origin[1])
-    cell.existsLowerWall = False
-
-for cell in maze:
-    print("UPPER", cell.existsUpperWall)
-
 pyplot.show()
 
 
