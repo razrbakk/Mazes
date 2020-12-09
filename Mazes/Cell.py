@@ -14,7 +14,6 @@ class Cell:
     existsLeftWall = False
     existsUpperWall = False
     existsLowerWall = False
-    visited = False
     origin = ()
 
     def __init__(self, x, y):

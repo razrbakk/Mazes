@@ -1,10 +1,11 @@
 import matplotlib.pyplot as pyplot
 from Cell import Cell
+import random
 
 pyplot.rcParams['toolbar'] = 'None'
 
 size_x = 4
-size_y = 4
+size_y = 6
 pyplot.axis('off')
 maze = []
 
@@ -41,6 +42,27 @@ def clear_right_wall(x, y):
             cell.existsLeftWall = False
 
 
+#  0 -> clear right
+#  1 -> clear up
+def binary_tree_algorithm():
+    for cell in maze:
+        binary = random.randint(0, 1)
+        if cell.origin[0] == size_x - 1 and cell.origin[1] == size_y - 1:
+            continue
+
+        if binary == 0:
+            if cell.origin[0] < size_x - 1:
+                clear_right_wall(cell.origin[0], cell.origin[1])
+            else:
+                clear_upper_wall(cell.origin[0], cell.origin[1])
+
+        elif binary == 1:
+            if cell.origin[1] < size_y - 1:
+                clear_upper_wall(cell.origin[0], cell.origin[1])
+            else:
+                clear_right_wall(cell.origin[0], cell.origin[1])
+
+
 def draw_cells():
     for x in range(size_x):
         for y in range(size_y):
@@ -61,6 +83,5 @@ def draw_cells():
 
 
 draw_cells()
+binary_tree_algorithm()
 pyplot.show()
-
-
